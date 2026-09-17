@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="50%" stop-color="#0f0e26"/>
+      <stop offset="100%" stop-color="#060611"/>
+    </linearGradient>
+
+    <!-- Border Gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#6366f1" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.7"/>
+    </linearGradient>
+
+    <!-- Display Screen Gradient -->
+    <linearGradient id="displayGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+
+    <!-- Button 1 (Violet) -->
+    <linearGradient id="btnViolet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+
+    <!-- Button 2 (Equals Amber) -->
+    <linearGradient id="btnAmber" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+
+    <!-- Soft Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Base Card -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#bgGrad)" stroke="url(#borderGrad)" stroke-width="2"/>
+
+  <!-- Calculator Display Bar -->
+  <rect x="10" y="10" width="44" height="12" rx="4" fill="#070814" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <!-- Display readout line -->
+  <rect x="34" y="14" width="14" height="3.5" rx="1.75" fill="url(#displayGrad)" filter="url(#glow)"/>
+
+  <!-- Grid of 4 Keypad Action Buttons -->
+  <!-- Top Left: Plus (+) -->
+  <rect x="10" y="26" width="20" height="13" rx="4" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <path d="M20 29.5 v6 M17 32.5 h6" stroke="#c7d2fe" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Top Right: Multiply (×) -->
+  <rect x="34" y="26" width="20" height="13" rx="4" fill="url(#btnViolet)"/>
+  <path d="M41.5 30 l5 5 M46.5 30 l-5 5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Bottom Left: Minus (−) -->
+  <rect x="10" y="42" width="20" height="13" rx="4" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <path d="M17 48.5 h6" stroke="#c7d2fe" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- Bottom Right: Equals (=) -->
+  <rect x="34" y="42" width="20" height="13" rx="4" fill="url(#btnAmber)"/>
+  <path d="M41 46.5 h6 M41 50 h6" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

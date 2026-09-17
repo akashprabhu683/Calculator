@@ -73,6 +73,7 @@ No build tools, bundlers, or package installations required!
 
 ```text
 calculator/
+├── favicon.svg      # Custom SVG vector favicon
 ├── index.html       # Semantic HTML5 structure & UI layout
 ├── style.css        # Glassmorphic CSS3 styling, responsive grid & animations
 ├── script.js        # Expression parsing, math logic & keyboard event handling
