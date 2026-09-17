@@ -1,0 +1,560 @@
+/* ============================================================
+   SCIENTIFIC CALCULATOR – STYLESHEET
+   Wide Glassmorphic Design, 6-Column Keypad, Micro-Animations
+============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Color Palette */
+  --clr-bg-deep: #0a0a16;
+  --clr-bg-card: rgba(18, 18, 38, 0.65);
+  --clr-card-border: rgba(255, 255, 255, 0.12);
+  --clr-card-highlight: rgba(255, 255, 255, 0.08);
+
+  --clr-display-bg: rgba(7, 8, 20, 0.65);
+  --clr-display-border: rgba(255, 255, 255, 0.08);
+
+  /* Button Colors */
+  --clr-num-bg: rgba(255, 255, 255, 0.06);
+  --clr-num-border: rgba(255, 255, 255, 0.09);
+  --clr-num-hover: rgba(255, 255, 255, 0.14);
+  --clr-num-active: rgba(255, 255, 255, 0.04);
+  --clr-num-text: #f8fafc;
+
+  --clr-sci-bg: rgba(99, 102, 241, 0.12);
+  --clr-sci-border: rgba(129, 140, 248, 0.22);
+  --clr-sci-hover: rgba(99, 102, 241, 0.24);
+  --clr-sci-text: #c7d2fe;
+
+  --clr-mem-bg: rgba(14, 165, 233, 0.12);
+  --clr-mem-border: rgba(56, 189, 248, 0.22);
+  --clr-mem-hover: rgba(14, 165, 233, 0.24);
+  --clr-mem-text: #7dd3fc;
+
+  --clr-action-bg: rgba(244, 63, 94, 0.15);
+  --clr-action-border: rgba(251, 113, 133, 0.25);
+  --clr-action-hover: rgba(244, 63, 94, 0.28);
+  --clr-action-text: #fecdd3;
+
+  --clr-op-bg: linear-gradient(135deg, #6366f1, #8b5cf6);
+  --clr-op-hover: linear-gradient(135deg, #7c3aed, #a855f7);
+  --clr-op-active: #8b5cf6;
+  --clr-op-text: #ffffff;
+
+  --clr-eq-bg: linear-gradient(135deg, #f97316, #fb923c);
+  --clr-eq-hover: linear-gradient(135deg, #ea580c, #f97316);
+  --clr-eq-text: #ffffff;
+
+  /* Typography Colors */
+  --clr-text-main: #ffffff;
+  --clr-text-sub: rgba(203, 213, 225, 0.6);
+  --clr-text-preview: #38bdf8;
+
+  /* Sizing & Radius */
+  --radius-calc: 30px;
+  --radius-btn: 15px;
+  --radius-display: 20px;
+  --gap: 10px;
+  --btn-height: 52px;
+
+  /* Fonts */
+  --font-ui: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Effects */
+  --shadow-calc: 0 35px 90px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --shadow-glow: 0 10px 30px -8px rgba(99, 102, 241, 0.45);
+  --transition: 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===========================
+   UTILITY & ACCESSIBILITY
+=========================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* ===========================
+   BODY & AMBIENT GLOWS
+=========================== */
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 15% 25%, #1e1b4b 0%, var(--clr-bg-deep) 55%),
+              linear-gradient(180deg, #090915 0%, #111126 100%);
+  font-family: var(--font-ui);
+  color: var(--clr-text-main);
+  overflow-x: hidden;
+  user-select: none;
+  padding: 20px 10px;
+}
+
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(95px);
+  animation: floatAmbient 12s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 520px;
+  height: 520px;
+  background: rgba(99, 102, 241, 0.25);
+  top: -100px;
+  left: -80px;
+  animation-duration: 14s;
+}
+
+.orb-2 {
+  width: 440px;
+  height: 440px;
+  background: rgba(249, 115, 22, 0.16);
+  bottom: -90px;
+  right: -80px;
+  animation-duration: 16s;
+  animation-delay: -4s;
+}
+
+.orb-3 {
+  width: 380px;
+  height: 380px;
+  background: rgba(139, 92, 246, 0.18);
+  top: 45%;
+  left: 55%;
+  animation-duration: 18s;
+  animation-delay: -8s;
+}
+
+@keyframes floatAmbient {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-35px) scale(1.06); }
+}
+
+/* ===========================
+   CALCULATOR WRAPPER (WIDER)
+=========================== */
+.calculator-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 650px;
+  padding: 12px;
+  margin: auto;
+}
+
+/* ===========================
+   CALCULATOR CARD (WIDE & GLASS)
+=========================== */
+.calculator {
+  background: var(--clr-bg-card);
+  border: 1px solid var(--clr-card-border);
+  border-radius: var(--radius-calc);
+  backdrop-filter: blur(36px) saturate(180%);
+  -webkit-backdrop-filter: blur(36px) saturate(180%);
+  box-shadow: var(--shadow-calc);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  animation: calcFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.calculator::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-calc);
+  background: linear-gradient(145deg, var(--clr-card-highlight) 0%, transparent 45%);
+  pointer-events: none;
+}
+
+@keyframes calcFadeIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+
+/* ===========================
+   DISPLAY PANEL
+=========================== */
+.display {
+  background: var(--clr-display-bg);
+  border: 1px solid var(--clr-display-border);
+  border-radius: var(--radius-display);
+  padding: 16px 20px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 124px;
+  position: relative;
+  box-shadow: inset 0 3px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* Top bar: Badges & History */
+.display-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.display-badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge-toggle {
+  background: rgba(99, 102, 241, 0.22);
+  border: 1px solid rgba(129, 140, 248, 0.35);
+  color: #c7d2fe;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.badge-toggle:hover {
+  background: rgba(99, 102, 241, 0.4);
+  color: #ffffff;
+  border-color: #818cf8;
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: var(--transition);
+}
+
+.badge.active {
+  background: rgba(14, 165, 233, 0.25);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.45);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+}
+
+.display-history {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--clr-text-sub);
+  text-align: right;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+
+/* Main number readout */
+.display-main {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  min-height: 48px;
+  overflow: hidden;
+}
+
+.display-current {
+  font-family: var(--font-mono);
+  font-size: 42px;
+  font-weight: 400;
+  color: var(--clr-text-main);
+  text-align: right;
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  transition: font-size 0.1s ease;
+}
+
+.display-current.shrink-sm { font-size: 32px; }
+.display-current.shrink-xs { font-size: 24px; }
+.display-current.error { color: #f87171; font-size: 28px; }
+
+/* Bottom bar: Preview & Keyboard Hint */
+.display-bottom-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  min-height: 18px;
+}
+
+.display-preview {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--clr-text-preview);
+  letter-spacing: 0.5px;
+  min-height: 16px;
+  opacity: 0.85;
+}
+
+.keyboard-hint {
+  font-size: 10px;
+  font-family: var(--font-ui);
+  color: rgba(203, 213, 225, 0.4);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+/* ===========================
+   SHORTCUTS STRIP
+=========================== */
+.shortcuts-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  font-size: 11px;
+  color: rgba(203, 213, 225, 0.6);
+}
+
+.shortcuts-strip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+kbd {
+  font-family: var(--font-mono);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 10px;
+  color: #e2e8f0;
+}
+
+/* ===========================
+   BUTTONS GRID (6 COLUMNS)
+=========================== */
+.buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--gap);
+}
+
+/* Base Button */
+.btn {
+  height: var(--btn-height);
+  border-radius: var(--radius-btn);
+  font-family: var(--font-ui);
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  border: 1px solid transparent;
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:focus-visible {
+  outline: 2px solid #818cf8;
+  outline-offset: 2px;
+}
+
+.btn:active,
+.btn.pressed {
+  transform: scale(0.92) translateY(1px);
+}
+
+/* Button Variants */
+/* 1. Numbers */
+.btn-num {
+  background: var(--clr-num-bg);
+  border-color: var(--clr-num-border);
+  color: var(--clr-num-text);
+  font-weight: 600;
+  font-size: 19px;
+}
+.btn-num:hover {
+  background: var(--clr-num-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+}
+
+/* 2. Scientific & Functions */
+.btn-sci {
+  background: var(--clr-sci-bg);
+  border-color: var(--clr-sci-border);
+  color: var(--clr-sci-text);
+  font-size: 15px;
+  font-weight: 500;
+}
+.btn-sci:hover {
+  background: var(--clr-sci-hover);
+  border-color: rgba(165, 180, 252, 0.4);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.25);
+}
+
+/* 3. Memory Buttons */
+.btn-mem {
+  background: var(--clr-mem-bg);
+  border-color: var(--clr-mem-border);
+  color: var(--clr-mem-text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.btn-mem:hover {
+  background: var(--clr-mem-hover);
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(14, 165, 233, 0.25);
+}
+
+/* 4. Action (Clear / Backspace) */
+.btn-action {
+  background: var(--clr-action-bg);
+  border-color: var(--clr-action-border);
+  color: var(--clr-action-text);
+  font-weight: 600;
+  font-size: 16px;
+}
+.btn-action:hover {
+  background: var(--clr-action-hover);
+  border-color: rgba(251, 113, 133, 0.45);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(244, 63, 94, 0.25);
+}
+.btn-action.btn-clear {
+  font-weight: 700;
+}
+
+/* 5. Operators (+, -, *, /) */
+.btn-op {
+  background: var(--clr-op-bg);
+  color: var(--clr-op-text);
+  font-weight: 600;
+  font-size: 22px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+.btn-op:hover {
+  background: var(--clr-op-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.5);
+}
+.btn-op.active-op {
+  background: rgba(99, 102, 241, 0.3);
+  border-color: #a855f7;
+  color: #ffffff;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.45), inset 0 0 12px rgba(168, 85, 247, 0.3);
+}
+
+/* 6. Equals Button */
+.btn-eq {
+  background: var(--clr-eq-bg);
+  color: var(--clr-eq-text);
+  font-size: 24px;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.4);
+}
+.btn-eq:hover {
+  background: var(--clr-eq-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(249, 115, 22, 0.55);
+}
+
+/* Result Flash */
+@keyframes resultFlash {
+  0%   { color: #ffffff; transform: scale(1); }
+  25%  { color: #fb923c; text-shadow: 0 0 22px rgba(251, 146, 60, 0.8); transform: scale(1.02); }
+  100% { color: #ffffff; transform: scale(1); }
+}
+
+.display-current.result-flash {
+  animation: resultFlash 0.35s ease forwards;
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+=========================== */
+@media (max-width: 600px) {
+  :root {
+    --gap: 7px;
+    --btn-height: 46px;
+    --radius-calc: 22px;
+    --radius-btn: 11px;
+  }
+  .calculator-wrapper {
+    padding: 6px;
+  }
+  .calculator {
+    padding: 16px 14px;
+  }
+  .display {
+    padding: 14px 14px 10px;
+    min-height: 108px;
+  }
+  .display-current {
+    font-size: 34px;
+  }
+  .btn {
+    font-size: 14px;
+  }
+  .btn-num {
+    font-size: 16px;
+  }
+  .btn-op {
+    font-size: 18px;
+  }
+  .shortcuts-strip {
+    font-size: 9.5px;
+    gap: 4px 8px;
+    padding: 6px 8px;
+  }
+}

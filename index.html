@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scientific & Arithmetic Calculator</title>
+  <meta name="description" content="A wide, modern scientific and arithmetic calculator supporting advanced operations, memory functions, and full keyboard support." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Animated background ambient orbs -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <main class="calculator-wrapper">
+    <h1 class="sr-only">Scientific Calculator</h1>
+
+    <div class="calculator" role="application" aria-label="Scientific Calculator">
+
+      <!-- Display Panel -->
+      <div class="display" id="display-panel">
+        <div class="display-top-bar">
+          <div class="display-badges">
+            <button class="badge-toggle" id="btn-deg-rad" type="button" aria-label="Toggle Degree or Radian mode">DEG</button>
+            <span class="badge memory-badge" id="badge-memory" aria-label="Memory active indicator">M</span>
+          </div>
+          <div class="display-history" id="history" aria-live="polite" aria-label="Calculation expression history"></div>
+        </div>
+
+        <div class="display-main">
+          <div class="display-current" id="current" aria-live="assertive" aria-label="Current input or result">0</div>
+        </div>
+
+        <div class="display-bottom-bar">
+          <div class="display-preview" id="live-preview" aria-live="polite"></div>
+          <div class="keyboard-hint" title="Press ? or K for keyboard shortcut cheat sheet">⌨ Keyboard Active</div>
+        </div>
+      </div>
+
+      <!-- Quick Shortcuts Helper Bar -->
+      <div class="shortcuts-strip" id="shortcuts-strip">
+        <span><kbd>Enter</kbd> / <kbd>=</kbd> calculate</span>
+        <span><kbd>Esc</kbd> clear</span>
+        <span><kbd>⌫</kbd> backspace</span>
+        <span><kbd>^</kbd> power</span>
+        <span><kbd>(</kbd><kbd>)</kbd> group</span>
+        <span><kbd>P</kbd> π</span>
+        <span><kbd>E</kbd> e</span>
+        <span><kbd>R</kbd> √</span>
+        <span><kbd>!</kbd> n!</span>
+      </div>
+
+      <!-- Buttons Grid (6 Columns) -->
+      <div class="buttons-grid" id="buttons-grid">
+
+        <!-- Row 1: Memory & Clear -->
+        <button class="btn btn-mem" id="btn-mc" data-action="mem-clear" title="Memory Clear">MC</button>
+        <button class="btn btn-mem" id="btn-mr" data-action="mem-recall" title="Memory Recall">MR</button>
+        <button class="btn btn-mem" id="btn-mplus" data-action="mem-add" title="Memory Add (M+)">M+</button>
+        <button class="btn btn-mem" id="btn-mminus" data-action="mem-sub" title="Memory Subtract (M-)">M−</button>
+        <button class="btn btn-action" id="btn-backspace" data-action="backspace" aria-label="Backspace" title="Backspace (⌫)">⌫</button>
+        <button class="btn btn-action btn-clear" id="btn-clear" data-action="clear" aria-label="All Clear" title="Clear All (Esc)">AC</button>
+
+        <!-- Row 2: Trig, Parens, Negate -->
+        <button class="btn btn-sci" id="btn-sin" data-action="unary" data-value="sin" title="Sine">sin</button>
+        <button class="btn btn-sci" id="btn-cos" data-action="unary" data-value="cos" title="Cosine">cos</button>
+        <button class="btn btn-sci" id="btn-tan" data-action="unary" data-value="tan" title="Tangent">tan</button>
+        <button class="btn btn-sci" id="btn-lparen" data-action="paren" data-value="(" title="Open parenthesis">(</button>
+        <button class="btn btn-sci" id="btn-rparen" data-action="paren" data-value=")" title="Close parenthesis">)</button>
+        <button class="btn btn-sci" id="btn-sign" data-action="sign" title="Toggle Positive / Negative (+/−)">+/−</button>
+
+        <!-- Row 3: Log, Powers, Div -->
+        <button class="btn btn-sci" id="btn-ln" data-action="unary" data-value="ln" title="Natural Logarithm (ln)">ln</button>
+        <button class="btn btn-sci" id="btn-log" data-action="unary" data-value="log" title="Logarithm base 10 (log)">log</button>
+        <button class="btn btn-sci" id="btn-sqr" data-action="unary" data-value="sqr" title="Square (x²)">x²</button>
+        <button class="btn btn-sci" id="btn-cube" data-action="unary" data-value="cube" title="Cube (x³)">x³</button>
+        <button class="btn btn-sci" id="btn-pow" data-action="operator" data-value="^" title="Power (xʸ)">xʸ</button>
+        <button class="btn btn-op" id="btn-div" data-action="operator" data-value="÷" aria-label="Divide" title="Divide (/)">÷</button>
+
+        <!-- Row 4: Roots, 7, 8, 9, Mul -->
+        <button class="btn btn-sci" id="btn-sqrt" data-action="unary" data-value="sqrt" title="Square root (√)">√</button>
+        <button class="btn btn-sci" id="btn-inv" data-action="unary" data-value="inv" title="Reciprocal (1/x)">1/x</button>
+        <button class="btn btn-num" id="btn-7" data-action="digit" data-value="7">7</button>
+        <button class="btn btn-num" id="btn-8" data-action="digit" data-value="8">8</button>
+        <button class="btn btn-num" id="btn-9" data-action="digit" data-value="9">9</button>
+        <button class="btn btn-op" id="btn-mul" data-action="operator" data-value="×" aria-label="Multiply" title="Multiply (*)">×</button>
+
+        <!-- Row 5: Factorial, Constants, 4, 5, 6, Sub -->
+        <button class="btn btn-sci" id="btn-fact" data-action="unary" data-value="fact" title="Factorial (n!)">n!</button>
+        <button class="btn btn-sci" id="btn-pi" data-action="constant" data-value="pi" title="Pi (π = 3.14159...)">π</button>
+        <button class="btn btn-num" id="btn-4" data-action="digit" data-value="4">4</button>
+        <button class="btn btn-num" id="btn-5" data-action="digit" data-value="5">5</button>
+        <button class="btn btn-num" id="btn-6" data-action="digit" data-value="6">6</button>
+        <button class="btn btn-op" id="btn-sub" data-action="operator" data-value="−" aria-label="Subtract" title="Subtract (-)">−</button>
+
+        <!-- Row 6: Modulo, Constant e, 1, 2, 3, Add -->
+        <button class="btn btn-sci" id="btn-mod" data-action="operator" data-value="mod" title="Modulo (remainder)">mod</button>
+        <button class="btn btn-sci" id="btn-e" data-action="constant" data-value="e" title="Euler's Constant (e = 2.71828...)">e</button>
+        <button class="btn btn-num" id="btn-1" data-action="digit" data-value="1">1</button>
+        <button class="btn btn-num" id="btn-2" data-action="digit" data-value="2">2</button>
+        <button class="btn btn-num" id="btn-3" data-action="digit" data-value="3">3</button>
+        <button class="btn btn-op" id="btn-add" data-action="operator" data-value="+" aria-label="Add" title="Add (+)">+</button>
+
+        <!-- Row 7: Absolute value, Ans, 0, Dot, Percent, Equals -->
+        <button class="btn btn-sci" id="btn-abs" data-action="unary" data-value="abs" title="Absolute Value (|x|)">|x|</button>
+        <button class="btn btn-sci" id="btn-ans" data-action="ans" title="Previous Answer">Ans</button>
+        <button class="btn btn-num" id="btn-0" data-action="digit" data-value="0">0</button>
+        <button class="btn btn-num" id="btn-dot" data-action="dot" aria-label="Decimal point">.</button>
+        <button class="btn btn-sci" id="btn-pct" data-action="percent" title="Percentage (%)">%</button>
+        <button class="btn btn-eq" id="btn-eq" data-action="equals" aria-label="Calculate Equals" title="Equals (Enter / =)">=</button>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
